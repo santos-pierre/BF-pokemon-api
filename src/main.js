@@ -1,8 +1,27 @@
 /**
- * @param {{name:string,height:number,weight:number,types: any[], sprites: string}} pokemon
+ *
+ * @param {FormDataEvent} e
  */
-const addPokemonToDOM = async (pokemon) => {
-    const pokemonList = document.querySelector('#pokemon-list');
+const handleForm = async (e) => {
+    e.preventDefault();
+    try {
+        const input = document.querySelector('input');
+        const pokemon = await getPokemon(input.value.trim().toLowerCase());
+        const pokemonDOMElement = await pokemonToDOM(pokemon);
+        const pokemonList = document.querySelector('#pokemon-list');
+        pokemonList.appendChild(pokemonDOMElement);
+        e.target.reset();
+        input.focus();
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+/**
+ * @param {{name:string,height:number,weight:number,types: any[], sprites: string}} pokemon
+ * return {Element}
+ */
+const pokemonToDOM = async (pokemon) => {
     try {
         // Get template
         const response = await fetch('./templates/pokemon-card.html');
@@ -15,7 +34,7 @@ const addPokemonToDOM = async (pokemon) => {
         let htmlElement = parser.parseFromString(htmlContent, 'text/html');
         // Retrieve the node element to add it to the parents list (pokemon-list)
         let newPokemonElement = htmlElement.querySelector(`#${pokemon.name}`);
-        pokemonList.appendChild(newPokemonElement);
+        return newPokemonElement;
     } catch (error) {
         console.error(error);
     }
@@ -48,15 +67,7 @@ const getPokemon = async (pokemonName) => {
 };
 
 const main = async () => {
-    // const pokemon = await getPokemon('pikachu');
-    // console.log(pokemon);
-    addPokemonToDOM({
-        name: 'Pikachu',
-        height: 0,
-        weight: 0,
-        types: [],
-        sprites: './assets/img/empty-pokemon.png',
-    });
+    document.querySelector('form').addEventListener('submit', handleForm);
 };
 
 main();
