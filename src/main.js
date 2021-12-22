@@ -1,21 +1,29 @@
-// let getTemplate = async () => {
-//     try {
-//         const response = await fetch('./templates/pokemon-card.html');
-//         let htmlContent = await response.text();
-//         htmlContent = htmlContent.replace('__POKEMON_NAME__', 'Pikachu');
-//         let parser = new DOMParser();
-//         let htmlElement = parser.parseFromString(htmlContent, 'text/html');
-//         console.log(htmlElement.firstChild);
-//     } catch (error) {
-//         console.error(error);
-//     }
-// };
-
-// getTemplate();
+/**
+ * @param {{name:string,height:number,weight:number,types: any[], sprites: string}} pokemon
+ */
+const addPokemonToDOM = async (pokemon) => {
+    const pokemonList = document.querySelector('#pokemon-list');
+    try {
+        // Get template
+        const response = await fetch('./templates/pokemon-card.html');
+        let htmlContent = await response.text();
+        // Replace with content
+        htmlContent = htmlContent.replaceAll('__POKEMON_NAME__', pokemon.name);
+        htmlContent = htmlContent.replaceAll('__POKEMON_IMAGE__', pokemon.sprites);
+        // Create HTML node with the new content
+        let parser = new DOMParser();
+        let htmlElement = parser.parseFromString(htmlContent, 'text/html');
+        // Retrieve the node element to add it to the parents list (pokemon-list)
+        let newPokemonElement = htmlElement.querySelector(`#${pokemon.name}`);
+        pokemonList.appendChild(newPokemonElement);
+    } catch (error) {
+        console.error(error);
+    }
+};
 
 /**
  * @param {string} pokemonName
- * @returns {{name:string,height:number,weight:number,types: any[]}}
+ * @returns {{name:string,height:number,weight:number,types: any[], sprites: string}}
  */
 const getPokemon = async (pokemonName) => {
     try {
@@ -40,8 +48,15 @@ const getPokemon = async (pokemonName) => {
 };
 
 const main = async () => {
-    const pokemon = await getPokemon('pikachu');
-    console.log(pokemon);
+    // const pokemon = await getPokemon('pikachu');
+    // console.log(pokemon);
+    addPokemonToDOM({
+        name: 'Pikachu',
+        height: 0,
+        weight: 0,
+        types: [],
+        sprites: './assets/img/empty-pokemon.png',
+    });
 };
 
 main();
