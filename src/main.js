@@ -1,3 +1,12 @@
+let pokemons = [];
+
+const updatePokemonCount = () => {
+    const count = document.getElementById('pokemon-count');
+    // Remove same occurence
+    const filteredPokemons = [...new Set(pokemons.map((pokemon) => pokemon.id))];
+    count.innerText = filteredPokemons.length;
+};
+
 /**
  *
  * @param {FormDataEvent} e
@@ -7,11 +16,13 @@ const handleForm = async (e) => {
     try {
         const input = document.querySelector('input');
         const pokemon = await getPokemon(input.value.trim().toLowerCase());
+        pokemons.push(pokemon);
         const pokemonDOMElement = await pokemonToDOM(pokemon);
         const pokemonList = document.querySelector('#pokemon-list');
         pokemonList.appendChild(pokemonDOMElement);
         e.target.reset();
         input.focus();
+        updatePokemonCount();
     } catch (error) {
         console.error(error);
     }
@@ -49,6 +60,7 @@ const getPokemon = async (pokemonName) => {
         const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`);
         let data = await response.json();
         return {
+            id: data.id,
             name: data.name,
             height: data.height,
             weight: data.weight,
@@ -57,6 +69,7 @@ const getPokemon = async (pokemonName) => {
         };
     } catch (error) {
         return {
+            id: pokemonName,
             name: pokemonName,
             height: 0,
             weight: 0,

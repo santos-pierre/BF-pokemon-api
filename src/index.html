@@ -6,21 +6,31 @@
         <link rel="stylesheet" href="./style.css" />
         <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
     </head>
-    <body>
+    <body class="relative">
         <main class="px-4 mx-auto mt-16 max-w-7xl sm:mt-24">
             <section class="text-center">
-                <header>
+                <header class="space-y-5">
                     <h1 class="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl md:text-6xl">
                         <span class="block">Pokemon! </span>
                         <span class="block text-red-600 xl:inline">Gotta catch 'em all!</span>
                     </h1>
                     <p
-                        class="max-w-md mx-auto mt-3 text-base text-gray-500  sm:text-lg md:mt-5 md:text-xl md:max-w-3xl"
+                        class="max-w-md mx-auto mt-3 text-base text-gray-500 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl"
                     >
                         Add a pokemon to your current pokedex
                     </p>
+                    <a href="" class="inline-flex items-center space-x-1 text-gray-400 hover:text-gray-700">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path
+                                fill-rule="evenodd"
+                                d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
+                                clip-rule="evenodd"
+                            />
+                        </svg>
+                        <span>Github</span>
+                    </a>
                 </header>
-                <form action="POST" class="max-w-xl mx-auto mt-10 sm:mt-12" id="addPokemon">
+                <form action="POST" class="max-w-xl mx-auto mt-3 sm:mt-5" id="addPokemon">
                     <div class="sm:flex">
                         <div class="flex-1 min-w-0">
                             <label for="pokemon_name" class="sr-only">Add Pokemon</label>
@@ -29,13 +39,13 @@
                                 type="text"
                                 placeholder="Pikachu, ..."
                                 name="pokemon_name"
-                                class="block w-full px-4 py-3 text-base text-gray-900 placeholder-gray-500 border rounded-md  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-300 focus:border-red-500"
+                                class="block w-full px-4 py-3 text-base text-gray-900 placeholder-gray-500 border rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-300 focus:border-red-500"
                             />
                         </div>
                         <div class="mt-3 sm:mt-0 sm:ml-3">
                             <button
                                 type="submit"
-                                class="block w-full px-4 py-3 font-medium text-white bg-red-500 border-red-500 rounded-md shadow  hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-300"
+                                class="block w-full px-4 py-3 font-medium text-white bg-red-500 border-red-500 rounded-md shadow hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-300"
                             >
                                 Add your pokemon
                             </button>
@@ -45,9 +55,12 @@
             </section>
             <section class="my-10">
                 <ul
-                    class="pb-10 space-y-4  sm:grid sm:grid-cols-2 sm:gap-6 sm:space-y-0 lg:grid-cols-3 lg:gap-8"
+                    class="pb-10 space-y-4 sm:grid sm:grid-cols-2 sm:gap-6 sm:space-y-0 lg:grid-cols-3 lg:gap-8"
                     id="pokemon-list"
                 ></ul>
+            </section>
+            <section class="max-w-2xl mx-auto my-10 border-t border-gray-200">
+                <div class="tracking-wide text-right text-gray-400 "><span id="pokemon-count">0</span>/<span>1118 Pokemons</span></p>
             </section>
         </main>
         <script src="./main.js" async></script>
