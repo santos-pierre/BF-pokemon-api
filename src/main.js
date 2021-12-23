@@ -29,7 +29,7 @@ const handleForm = async (e) => {
 };
 
 /**
- * @param {{name:string,height:number,weight:number,types: any[], sprites: string}} pokemon
+ * @param {{id: number|string,name:string,height:number,weight:number,types: any[], sprites: string}} pokemon
  * return {Element}
  */
 const pokemonToDOM = async (pokemon) => {
@@ -40,11 +40,30 @@ const pokemonToDOM = async (pokemon) => {
         // Replace with content
         htmlContent = htmlContent.replaceAll('__POKEMON_NAME__', pokemon.name);
         htmlContent = htmlContent.replaceAll('__POKEMON_IMAGE__', pokemon.sprites);
+        htmlContent = htmlContent.replaceAll(
+            '__POKEMON__TYPES__LIST__',
+            `${pokemon.name}-${pokemon.id}-types-list`
+        );
         // Create HTML node with the new content
         let parser = new DOMParser();
         let htmlElement = parser.parseFromString(htmlContent, 'text/html');
         // Retrieve the node element to add it to the parents list (pokemon-list)
         let newPokemonElement = htmlElement.querySelector(`#${pokemon.name}`);
+        // Add types
+        let types = pokemon.types.map(({ type }) => {
+            const typeElement = document.createElement('li');
+            const typeImage = document.createElement('img');
+            typeElement.setAttribute('class', 'm-1.5');
+            typeImage.src = `./assets/img/pokemon-types/${type.name}.svg`;
+            typeImage.alt = `${type.name}-type`;
+            typeImage.setAttribute('class', 'h-7 md:h-6');
+            typeElement.appendChild(typeImage);
+            return typeElement;
+        });
+        const listOfTypes = newPokemonElement.querySelector(`#${pokemon.name}-${pokemon.id}-types-list`);
+        types.forEach((element) => {
+            listOfTypes.appendChild(element);
+        });
         return newPokemonElement;
     } catch (error) {
         console.error(error);
